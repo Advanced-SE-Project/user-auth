@@ -14,10 +14,15 @@ jobs:
 
     steps:
       # Checkout code
-      - name: Git checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1  # Ensure a fresh checkout of the latest commit
+      # Checkout the code first
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checkout the code from your repository
+
+      # List files to confirm the presence of the Dockerfile
+      - name: List files after checkout
+        run: |
+          echo "Listing files after checkout"
+          ls -alh
 
       - name: Set up Python
         uses: actions/setup-python@v2
