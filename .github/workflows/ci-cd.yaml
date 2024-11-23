@@ -38,7 +38,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-
+            # Debugging: List files in the current directory
+      - name: List files in the current directory
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Listing files in the current directory:"
+          ls -alh
       # Build Docker image from the correct directory (first User-Authentication folder)
       - name: Build Docker Image
         run: |
