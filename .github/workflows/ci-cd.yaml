@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from the repo
+      # Checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2  # Checkout the code from your repository
+        uses: actions/checkout@v2
 
-      # Verify if the checkout step succeeded
-      - name: Verify if checkout was successful
+      # List the files in the working directory after checkout
+      - name: List files in the working directory (after checkout)
         run: |
-          echo "Listing files after checkout:"
-          ls -alh $GITHUB_WORKSPACE  # List the files in the workspace after checkout
           echo "Current working directory:"
-          pwd  # Show the current directory
+          pwd
+          echo "Listing files after checkout:"
+          ls -alh $GITHUB_WORKSPACE
 
       # Set up Python
       - name: Set up Python
@@ -37,10 +37,14 @@ jobs:
           pip install -r requirements.txt
 
   build-and-push-docker:
-    needs: build-and-test
+    needs: build-and-test  # This job depends on the previous job
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code again in this job
+      - name: Checkout code
+        uses: actions/checkout@v2  # Make sure the files are available for Docker build
+
       # Log in to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -48,15 +52,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # List files in the current directory (for debugging before Docker build)
+      # List the files in the current directory before building the Docker image
       - name: List files before building Docker image
         run: |
           echo "Current working directory before Docker build:"
           pwd
-          echo "Listing files in the current directory before build:"
+          echo "Listing files before Docker build:"
           ls -alh
 
-      # Build Docker image from the correct directory (first User-Authentication folder)
+      # Build Docker image from the correct directory
       - name: Build Docker image
         run: |
           docker build -f $GITHUB_WORKSPACE/Dockerfile $GITHUB_WORKSPACE -t erisahalipaj2107/user-auth:latest
