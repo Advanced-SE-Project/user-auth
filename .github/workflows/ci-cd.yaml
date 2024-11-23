@@ -13,17 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      # Checkout the code first
+      # Checkout the code from the repo
       - name: Checkout code
         uses: actions/checkout@v2  # Checkout the code from your repository
 
-      # List files to confirm the presence of the Dockerfile
-      - name: List files after checkout
+      # Verify if the checkout step succeeded
+      - name: Verify if checkout was successful
         run: |
-          echo "Listing files after checkout"
-          ls -alh
+          echo "Listing files after checkout:"
+          ls -alh $GITHUB_WORKSPACE  # List the files in the workspace after checkout
+          echo "Current working directory:"
+          pwd  # Show the current directory
 
+      # Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -39,25 +41,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Log in to Docker Hub
+      # Log in to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-            # Debugging: List files in the current directory
-      - name: List files in the current directory
+      # List files in the current directory (for debugging before Docker build)
+      - name: List files before building Docker image
         run: |
-          echo "Current working directory:"
+          echo "Current working directory before Docker build:"
           pwd
-          echo "Listing files in the current directory:"
+          echo "Listing files in the current directory before build:"
           ls -alh
-      # Build Docker image from the correct directory (first User-Authentication folder)
-      - name: Build Docker Image
-        run: |
-          docker build -f Dockerfile . -t erisahalipaj2107/user-auth:latest
 
-      - name: Push Docker Image
+      # Build Docker image from the correct directory (first User-Authentication folder)
+      - name: Build Docker image
+        run: |
+          docker build -f $GITHUB_WORKSPACE/Dockerfile $GITHUB_WORKSPACE -t erisahalipaj2107/user-auth:latest
+
+      - name: Push Docker image
         run: |
           docker push erisahalipaj2107/user-auth:latest
 
