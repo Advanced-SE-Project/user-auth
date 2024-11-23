@@ -12,8 +12,8 @@ jobs:
 
     steps:
       # Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Git checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1  # Ensure a fresh checkout of the latest commit
 
