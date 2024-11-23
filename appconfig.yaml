@@ -1,0 +1,19 @@
+server:
+  port: 5000
+
+flask:
+  application_name: auth-server
+
+logging:
+  level:
+    root: info
+
+api:
+  auth-server:
+    base-url: http://localhost:5000
+
+# Docker-specific configuration
+docker:
+  api:
+    auth-server:
+      base-url: http://auth-server:5000
