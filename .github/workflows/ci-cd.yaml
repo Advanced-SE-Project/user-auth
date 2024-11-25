@@ -68,11 +68,3 @@ jobs:
       - name: Push Docker image
         run: |
           docker push erisahalipaj2107/user-auth:latest
-
-  restart-application:
-    needs: build-and-push-docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: Restart Application
-        run: |
-          ssh -i ${{ secrets.SSH_KEY }} user@${{ secrets.DROPLET_IP }} "docker-compose -f /path/to/docker-compose.yml up -d"
