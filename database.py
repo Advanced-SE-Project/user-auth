@@ -1,6 +1,10 @@
 import psycopg2
 from dotenv import load_dotenv
 import os
+import logging
+
+
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Load .env variables
 load_dotenv()
@@ -13,7 +17,7 @@ def get_db_connection():
     try:
         return psycopg2.connect(DATABASE_URL)
     except Exception as e:
-        print(f"Error connecting to the database: {e}")
+        logging.error(f"Database connection error: {e}")
         raise
 
 def initialize_db():
@@ -36,10 +40,10 @@ def initialize_db():
                 with open('schema.sql', 'r') as f:
                     cur.execute(f.read())
                 conn.commit()
-                print("Database tables created successfully.")
+                logging.info("Database tables created successfully.")
             else:
-                print("Database tables already exist.")
+                logging.info("Database tables already exist.")
         conn.close()
     except Exception as e:
-        print(f"Error initializing the database: {e}")
+        logging.error(f"Error initializing the database: {e}")
         raise

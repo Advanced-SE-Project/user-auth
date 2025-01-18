@@ -15,3 +15,4 @@ typing_extensions==4.12.2
 Werkzeug==3.1.1
 ## The following requirements were added by pip freeze:
 psycopg2==2.9.10
+flask-cors==4.0.0
