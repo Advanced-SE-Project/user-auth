@@ -1,3 +1,10 @@
+"""
+===========================================
+File: test_unit.py
+Author: Erisa Halipaj
+Date: 19/01/2025
+===========================================
+"""
 import pytest
 from database import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash

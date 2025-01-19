@@ -1,11 +1,13 @@
 User Authentication Microservice
 ================================
 
-A microservice for managing user authentication, including registration, login, and account management. This service is built with Python, Flask, and PostgreSQL, utilizing JWT for authentication and CORS for secure cross-origin requests.
+A microservice for managing user authentication, including user registration, login, and account management(updating credentials, username and). This service is built with Python, Flask, and PostgreSQL, utilizing JWT for authentication and CORS for secure cross-origin requests.
 
 Table of Contents
 -----------------
 
+*   [Overview](#overview)
+    
 *   [Features](#features)
     
 *   [Installation](#installation)
@@ -20,6 +22,16 @@ Table of Contents
     
 *   [Technologies Used](#technologies-used)
     
+
+Overview
+--------
+
+This microservice is responsible for **user authentication** in a microservices-based architecture.  
+It **manages user registrations, login sessions, credential updates, and account deletion**.  
+
+🔹 The **JWT tokens** issued upon registration and login allow secure **stateless authentication** between the frontend and backend.  
+🔹 The **database stores hashed passwords** using **Werkzeug**, ensuring **secure credential management**.  
+🔹 The service supports **cross-origin requests (CORS)** to allow frontend applications to communicate with it.
 
 Features
 --------
@@ -40,7 +52,7 @@ Features
 Installation
 ------------
 
-1.  git clone cd user-authentication
+1.  git clone https://github.com/Advanced-SE-Project/user-auth.git
     
 2.  Create a virtual environment:
     
@@ -48,7 +60,9 @@ Installation
         
     *  python3 -m venv venvsource venv/bin/activate
         
-3.  pip install -r requirements.txt
+3.  Install dependencies:
+
+    * pip install -r requirements.txt
     
 
 Environment Variables
@@ -60,6 +74,8 @@ Create a .env file in the root directory with the following configuration:
     JWT_SECRET_KEY=" "
 
 *   Replace with your PostgreSQL password.
+    
+*   Replace with your PostgreSQL DBname.
     
 *   python -c "import secrets; print(secrets.token\_hex(32))"  run this in your terminal to generate a secret key
     
@@ -82,6 +98,17 @@ Start the application locally:
 python app.py
 
 The app will run on http://localhost:5000/.
+
+🔒 JWT Authentication Flow
+--------------------------
+
+1️⃣ **User Registers/Login → Server Generates a JWT**
+2️⃣ **Frontend Stores the Token (Local Storage or Session Storage)**
+
+🔹 **Example of JWT Token**
+
+`   {    "access_token": "eyJhbGciOiJIUzI1..."  }   `
+
 
 API Endpoints
 -------------
@@ -129,6 +156,23 @@ API Endpoints
     
 *   { "message": "User account deleted successfully"}
     
+
+
+🧪 Testing the Microservice
+---------------------------
+
+### **1️⃣ Run All Tests**
+
+`   pytest tests/   `
+
+### **2️⃣ Run Only Unit Tests**
+
+`   pytest tests/test_unit.py   `
+
+### **3️⃣ Run Only Integration Tests**
+
+`   pytest tests/test_integration.py   `
+
 
 Technologies Used
 -----------------

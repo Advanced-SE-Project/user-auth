@@ -1,3 +1,11 @@
+
+"""
+===========================================
+File: test_config.py
+Author: Erisa Halipaj
+Date: 19/01/2025
+===========================================
+"""
 import pytest
 from app import app
 from database import get_db_connection
