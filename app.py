@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import initialize_db, get_db_connection
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, decode_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 
 
@@ -154,6 +154,24 @@ def change_credentials():
     except Exception as e:
         logging.error(f"Error while updating credentials: {e}")
         return jsonify({'message': 'An error occurred while updating credentials', 'error': str(e)}), 500
+    
+# Validate token endpoint
+@app.route('/api/auth/validate', methods=['POST'])
+@jwt_required()  # Ensure a valid JWT is provided
+def validate_token():
+    logging.info("Validate token route accessed.")
+    
+    # Get the identity of the user from the token
+    user_identity = get_jwt_identity()
+
+    logging.debug(f"Token validated for user identity: {user_identity}")
+    
+    # Return a successful response with user details from the token
+    return jsonify({
+        'message': 'Token is valid',
+        'valid': 1,
+        'user': user_identity}),200
+
 
 # Delete user account (Frontend sends user_id)
 @app.route('/api/auth/delete', methods=['DELETE'])
