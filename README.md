@@ -188,3 +188,11 @@ Technologies Used
 *   **Werkzeug**: For secure password hashing.
     
 *   **Flask-CORS**: Enables secure cross-origin communication.
+
+
+
+**Author**: Erisa Halipaj  
+**Date**: 19/01/2025  
+
+This document provides setup instructions, API documentation, 
+and usage details for the authentication microservice.
