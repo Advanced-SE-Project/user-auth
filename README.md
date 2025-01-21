@@ -70,7 +70,7 @@ Environment Variables
 
 Create a .env file in the root directory with the following configuration:
 
-   DATABASE_URL=postgresql://postgres:@localhost:5432/DBname
+   DATABASE_URL=postgresql://postgres:password@localhost:5432/DBname
     JWT_SECRET_KEY=" "
 
 *   Replace with your PostgreSQL password.
@@ -78,6 +78,8 @@ Create a .env file in the root directory with the following configuration:
 *   Replace with your PostgreSQL DBname.
     
 *   python -c "import secrets; print(secrets.token\_hex(32))"  run this in your terminal to generate a secret key
+    
+*   If you want to run it with docker you use DATABASE_URL=postgresql://postgres:password@budged_db:5432/DBname
     
 
 Database Setup
@@ -98,6 +100,24 @@ Start the application locally:
 python app.py
 
 The app will run on http://localhost:5000/.
+
+**Running with Docker**
+-----------------------
+
+To run the microservice using Docker, follow these steps:
+
+### **1️⃣ Build the Docker Image**
+
+`   docker build -t user-auth .   `
+
+### **2️⃣ Run PostgreSQL Database Container**
+
+`   docker run --name budget_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=PASSWORD -e POSTGRES_DB=budget_db -p 5432:5432 -d postgres   `
+
+### **3️⃣ Run the Microservice Container**
+
+`   docker run --name user-auth-container \    --env-file .env -p 5000:5000 --link budget_db user-auth   `
+
 
 🔒 JWT Authentication Flow
 --------------------------
