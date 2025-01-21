@@ -1,3 +1,13 @@
+"""
+
+===========================================
+File: database.py
+Author: Erisa Halipaj
+Description:Manages database connections and initializes the users table if it does not exist.
+Date: 19/01/2025
+===========================================
+
+"""
 import psycopg2
 from dotenv import load_dotenv
 import os

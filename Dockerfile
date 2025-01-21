@@ -1,3 +1,9 @@
+# File: Dockerfile
+# Author: Erisa Halipaj
+# Date: 19/01/2025
+#
+# Defines the environment for running the Flask authentication microservice.
+# It installs dependencies, sets up Flask, and starts the application.
 # Use the official Python image from the Docker Hub
 FROM python:3.12-slim
 

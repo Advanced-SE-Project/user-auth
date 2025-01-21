@@ -1,3 +1,14 @@
+"""
+
+===========================================
+File: app.py
+Author: Erisa Halipaj
+Description:This is the main Flask application for user authentication. 
+It handles user registration, login, credential updates, and account deletion.
+Date: 19/01/2025
+===========================================
+
+"""
 import os
 import yaml
 import logging

@@ -1,6 +1,14 @@
+"""
+===========================================
+File: test_integration.py
+Author: Erisa Halipaj
+Date: 19/01/2025
+===========================================
+"""
 import pytest
 import json
 from .test_config import client
+
 
 def test_register_user(client):
     """Test user registration"""

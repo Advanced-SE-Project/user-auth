@@ -1,3 +1,9 @@
+# File: requirements.txt
+# Author: Erisa Halipaj
+# Date: 19/01/2025
+#
+# Lists required dependencies for the authentication microservice.
+# Install with: pip install -r requirements.txt
 blinker==1.8.2
 click==8.1.7
 colorama==0.4.6
