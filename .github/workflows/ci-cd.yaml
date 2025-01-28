@@ -12,6 +12,21 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 12345678
+          POSTGRES_DB: budget_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       # Checkout the code from the repository
       - name: Checkout code
@@ -35,6 +50,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      # Set up environment variables for testing
+      - name: Set up environment variables
+        run: |
+          echo "DATABASE_URL=postgresql://postgres:12345678@localhost:5432/budget_db" >> $GITHUB_ENV
+          echo "JWT_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_hex(32))')" >> $GITHUB_ENV
+
+      # Run database migrations if needed
+      - name: Initialize database schema
+        run: |
+          psql $DATABASE_URL -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE, password VARCHAR(255));"
+
+      # Run Unit Tests
+      - name: Run Unit Tests
+        run: pytest tests/test_unit.py
+
+      # Run Integration Tests
+      - name: Run Integration Tests
+        run: pytest tests/test_integration.py
 
   build-and-push-docker:
     needs: build-and-test  # This job depends on the previous job
